@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_on_wheel/pages/onboard.dart';
+import 'package:quick_foodie/pages/onboard.dart';
 
 void main() {
   runApp(const MyApp());

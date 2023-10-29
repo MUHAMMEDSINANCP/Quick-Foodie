@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_on_wheel/pages/home.dart';
-import 'package:food_on_wheel/pages/login.dart';
+import 'package:quick_foodie/pages/bottomnav.dart';
+import 'package:quick_foodie/pages/login.dart';
 
 import '../widget/widget_support.dart';
 
@@ -113,7 +113,8 @@ class _SignUpState extends State<SignUp> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const Home()));
+                                        builder: (context) =>
+                                            const BottomNav()));
                               },
                               child: Material(
                                 elevation: 5.0,

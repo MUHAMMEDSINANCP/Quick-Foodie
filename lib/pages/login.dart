@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_on_wheel/pages/home.dart';
-import 'package:food_on_wheel/pages/signup.dart';
+import 'package:quick_foodie/pages/bottomnav.dart';
+import 'package:quick_foodie/pages/signup.dart';
 
 import '../widget/widget_support.dart';
 
@@ -100,10 +100,11 @@ class _LoginState extends State<Login> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const Home()));
+                                        builder: (context) =>
+                                            const BottomNav()));
                               },
                               child: Material(
                                 elevation: 5.0,

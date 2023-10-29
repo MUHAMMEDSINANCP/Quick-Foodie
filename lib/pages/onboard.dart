@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_on_wheel/pages/signup.dart';
+import 'package:quick_foodie/pages/signup.dart';
 
 import '../widget/content_model.dart';
 import '../widget/widget_support.dart';
@@ -84,8 +84,9 @@ class _OnboardState extends State<Onboard> {
                     MaterialPageRoute(builder: (context) => const SignUp()));
               }
               _controller.nextPage(
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.bounceIn);
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.bounceIn,
+              );
             },
             child: Container(
               decoration: BoxDecoration(
@@ -110,12 +111,15 @@ class _OnboardState extends State<Onboard> {
   }
 
   Container buildDot(int index, BuildContext context) {
+    Color color =
+        currentIndex == index ? Colors.red : Colors.black.withOpacity(0.7);
+
     return Container(
-      height: 10.0,
-      width: currentIndex == index ? 18 : 7,
+      height: 11.0,
+      width: currentIndex == index ? 20 : 10,
       margin: const EdgeInsets.only(right: 5),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6), color: Colors.black38),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(6), color: color),
     );
   }
 }
