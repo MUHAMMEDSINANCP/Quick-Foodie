@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:quick_foodie/pages/onboard.dart';
-import 'package:quick_foodie/widget/app_constant.dart';
+import 'package:quick_foodie/widget/api.dart';
 import 'firebase_options.dart';
 
 void main() async {

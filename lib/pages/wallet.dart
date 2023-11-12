@@ -7,7 +7,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:quick_foodie/common_widgets/default_wallets_amounts.dart';
 import 'package:quick_foodie/service/service.dart';
 import 'package:quick_foodie/service/shared_pref.dart';
-import 'package:quick_foodie/widget/app_constant.dart';
+import 'package:quick_foodie/widget/api.dart';
 import 'package:quick_foodie/widget/widget_support.dart';
 import 'package:http/http.dart' as http;
 
