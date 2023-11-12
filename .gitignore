@@ -45,4 +45,4 @@ app.*.map.json
 
 
 # .gitignore
-app_constant.dart
+lib/widget/app_constant.dart
