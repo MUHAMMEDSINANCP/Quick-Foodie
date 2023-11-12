@@ -45,4 +45,4 @@ app.*.map.json
 
 
 # .gitignore
- api.dart
+stripe_api.dart
