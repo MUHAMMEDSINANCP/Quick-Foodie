@@ -28,18 +28,20 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cloud_firestore: ^4.13.0
   cupertino_icons: ^1.0.2
   curved_navigation_bar: ^1.0.3
+  firebase_auth: ^4.13.0
+  firebase_core: ^2.22.0
   flutter:
     sdk: flutter
+  flutter_stripe: ^9.5.0+1
+  http: ^1.1.0
+  random_string: ^2.3.1
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  build_runner: ^2.4.6
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter

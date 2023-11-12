@@ -42,18 +42,20 @@ class _DetailsState extends State<Details> {
               ),
               Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Mediterranean",
-                        style: AppWidget.semiBoldTextFeildStyle(),
-                      ),
-                      Text(
-                        "Chickpea Salad",
-                        style: AppWidget.boldTextFeildStyle(),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Mediterranean",
+                          style: AppWidget.semiBoldTextFeildStyle(),
+                        ),
+                        Text(
+                          "Chickpea Salad",
+                          style: AppWidget.boldTextFeildStyle(),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.14,
@@ -76,14 +78,14 @@ class _DetailsState extends State<Details> {
                     ),
                   ),
                   const SizedBox(
-                    width: 20.0,
+                    width: 8.0,
                   ),
                   Text(
                     a.toString(),
                     style: AppWidget.semiBoldTextFeildStyle(),
                   ),
                   const SizedBox(
-                    width: 20.0,
+                    width: 8.0,
                   ),
                   GestureDetector(
                     onTap: () {

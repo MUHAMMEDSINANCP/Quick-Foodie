@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "611694559944",
+    "project_id": "quick-foodie-2abd5",
+    "storage_bucket": "quick-foodie-2abd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611694559944:android:9ab656d5ceed50152cdbfd",
+        "android_client_info": {
+          "package_name": "com.example.food_on_wheel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKePQbZFcZQ_V10mo3CS5BOubijkayXdI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
