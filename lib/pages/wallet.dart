@@ -276,87 +276,85 @@ class _WalletState extends State<Wallet> {
         context: context,
         builder: (context) => AlertDialog(
           content: SingleChildScrollView(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(
-                          Icons.cancel,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.cancel,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 60.0,
+                    ),
+                    const Center(
+                      child: Text(
+                        "Add Money",
+                        style: TextStyle(
+                          color: Color(0xFF008080),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(
-                        width: 60.0,
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                const Text("Amount"),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black38, width: 2.0),
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
+                  ),
+                  child: TextField(
+                    controller: amountcontroller,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Enter Amount',
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      makePayment(amountcontroller.text);
+                    },
+                    child: Container(
+                      width: 80,
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF008080),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      const Center(
+                      child: const Center(
                         child: Text(
-                          "Add Money",
+                          "Pay",
                           style: TextStyle(
-                            color: Color(0xFF008080),
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  const Text("Amount"),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38, width: 2.0),
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
-                    ),
-                    child: TextField(
-                      controller: amountcontroller,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Enter Amount',
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                        makePayment(amountcontroller.text);
-                      },
-                      child: Container(
-                        width: 80,
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF008080),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Pay",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

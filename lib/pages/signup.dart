@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +6,6 @@ import 'package:quick_foodie/pages/login.dart';
 import 'package:quick_foodie/service/service.dart';
 import 'package:quick_foodie/service/shared_pref.dart';
 import 'package:random_string/random_string.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../widget/widget_support.dart';
 
 class SignUp extends StatefulWidget {
@@ -51,51 +47,60 @@ class _SignUpState extends State<SignUp> {
         'email': email,
         // Add other user details if needed
       });
-      ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
-          backgroundColor: Colors.green,
-          content: Text(
-            "Registered Successfully",
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ))));
 
-      String Id = randomAlphaNumeric(10);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ))));
+      }
+
+      String id = randomAlphaNumeric(10);
 
       Map<String, dynamic> addUserInfo = {
         "Name": nameController.text,
         "Email": emailController.text,
         "Wallet": "0",
-        "Id": Id,
+        "Id": id,
       };
-      await DatabaseMethods().addUserDetail(addUserInfo, Id);
+      await DatabaseMethods().addUserDetail(addUserInfo, id);
       await SharedpreferenceHelper().saveUserName(nameController.text);
       await SharedpreferenceHelper().saveUserEmail(emailController.text);
       await SharedpreferenceHelper().saveUserWallet("0");
-      await SharedpreferenceHelper().saveUserId(Id);
+      await SharedpreferenceHelper().saveUserId(id);
 
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const BottomNav()));
+      if (context.mounted) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const BottomNav()));
+      }
     } on FirebaseException catch (e) {
       if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              "Password Provided is too Weak",
-              style: TextStyle(
-                fontSize: 18,
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.redAccent,
+              content: Text(
+                "Password Provided is too Weak",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
             ),
-          ),
-        );
+          );
+        }
       } else if (e.code == "email-already-in-use") {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              "Account already exists!",
-              style: TextStyle(fontSize: 18),
-            )));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Colors.redAccent,
+              content: Text(
+                "Account already exists!",
+                style: TextStyle(fontSize: 18),
+              )));
+        }
       }
     } finally {
       setState(() {
@@ -243,7 +248,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 30.0,
+                                height: 17.0,
                               ),
                               GestureDetector(
                                 onTap: () {

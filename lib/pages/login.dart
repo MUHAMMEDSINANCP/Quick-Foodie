@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_foodie/pages/bottomnav.dart';
@@ -37,19 +35,24 @@ class _LoginState extends State<Login> {
         email: email,
         password: password,
       );
-      ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
-          backgroundColor: Colors.green,
-          content: Text(
-            "Logged In Successfully",
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ))));
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const BottomNav()),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              "Logged In Successfully",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ))));
+      }
+
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BottomNav()),
+        );
+      }
     } on FirebaseException catch (e) {
       String errorMessage =
           "Invalid Credentials! Check your email & password again.";
@@ -60,15 +63,17 @@ class _LoginState extends State<Login> {
         errorMessage = "Wrong password provided by the user.";
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.redAccent,
-          content: Text(
-            errorMessage,
-            style: const TextStyle(
-              fontSize: 15,
-              color: Colors.white,
-            ),
-          )));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(
+              errorMessage,
+              style: const TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+              ),
+            )));
+      }
     } finally {
       setState(() {
         isLoading = false;
