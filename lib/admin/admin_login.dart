@@ -16,7 +16,6 @@ class _AdminLoginState extends State<AdminLogin> {
   String? emailError;
   String? passwordError;
   bool isPasswordVisible = false;
-
   bool isLoading = false;
 
   @override
@@ -47,11 +46,11 @@ class _AdminLoginState extends State<AdminLogin> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.25,
                       ),
                       const Text(
-                        "Let's start with\nAdmin!",
+                        "Let's Start as Admin!",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 25.0,
@@ -82,13 +81,13 @@ class _AdminLoginState extends State<AdminLogin> {
                                     controller: usernamecontroller,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter Username';
+                                        return 'Please enter username.';
                                       }
                                       return null;
                                     },
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.all(18),
-                                      hintText: 'Enter your email',
+                                      hintText: 'Enter your username',
                                       border: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Colors.grey,
@@ -113,13 +112,13 @@ class _AdminLoginState extends State<AdminLogin> {
                                     controller: userpasswordcontroller,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter Password';
+                                        return 'Please enter password.';
                                       }
                                       return null;
                                     },
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.all(18),
-                                      hintText: 'Enter your Password',
+                                      hintText: 'Enter your password',
                                       border: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Colors.grey,
@@ -240,10 +239,15 @@ class _AdminLoginState extends State<AdminLogin> {
       for (var result in snapshot.docs) {
         if (result.data()['id'] != usernamecontroller.text.trim()) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              dismissDirection: DismissDirection.up,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
               backgroundColor: Colors.redAccent,
-              content: Text(
-                "Your id is not correct",
-                style: TextStyle(fontSize: 18.0),
+              content: Center(
+                child: Text(
+                  "Your id is not correct",
+                  style: TextStyle(fontSize: 18.0),
+                ),
               )));
           setState(() {
             isLoading = false;
@@ -251,11 +255,19 @@ class _AdminLoginState extends State<AdminLogin> {
         } else if (result.data()['password'] !=
             userpasswordcontroller.text.trim()) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              dismissDirection: DismissDirection.up,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
               backgroundColor: Colors.redAccent,
-              content: Text(
-                "Your password is not correct",
-                style: TextStyle(fontSize: 18.0),
+              content: Center(
+                child: Text(
+                  "Your password is not correct",
+                  style: TextStyle(fontSize: 18.0),
+                ),
               )));
+          setState(() {
+            isLoading = false;
+          });
         } else {
           found = true;
           break;
@@ -272,10 +284,13 @@ class _AdminLoginState extends State<AdminLogin> {
               backgroundColor: Colors.white, // Green color for success
               title: const Text(
                 'Success!',
-                style: TextStyle(color: Colors.green),
+                style: TextStyle(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               content: const Text(
-                'You have successfully logged in.',
+                'You have successfully logged in as Admin.',
               ),
               actions: [
                 TextButton(
