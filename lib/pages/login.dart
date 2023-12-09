@@ -253,9 +253,17 @@ class _LoginState extends State<Login> {
                                             BorderRadius.circular(20)),
                                     child: Center(
                                       child: isLoading
-                                          ? const CircularProgressIndicator(
-                                              strokeWidth: 3,
-                                              color: Colors.white,
+                                          ? const SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 5,
+                                                backgroundColor:
+                                                    Colors.orangeAccent,
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(Colors.white),
+                                              ),
                                             )
                                           : const Text(
                                               "LOGIN",

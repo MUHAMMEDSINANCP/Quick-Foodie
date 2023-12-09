@@ -173,11 +173,12 @@ class _AdminLoginState extends State<AdminLogin> {
                                             : const SizedBox.shrink(),
                                         isLoading
                                             ? const SizedBox(
-                                                height: 20,
-                                                width: 20,
+                                                height: 23,
+                                                width: 23,
                                                 child:
                                                     CircularProgressIndicator(
-                                                  strokeWidth: 2,
+                                                  strokeWidth: 6,
+                                                  backgroundColor: Colors.grey,
                                                   valueColor:
                                                       AlwaysStoppedAnimation<
                                                           Color>(Colors.white),

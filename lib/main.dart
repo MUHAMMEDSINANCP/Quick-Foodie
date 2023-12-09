@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:quick_foodie/admin/admin_login.dart';
-import 'package:quick_foodie/pages/onboard.dart';
 import 'package:quick_foodie/widget/stripe_api.dart';
 import 'firebase_options.dart';
 
@@ -29,7 +28,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const AdminLogin(),
-      // home: const Onboard(),
     );
   }
 }
