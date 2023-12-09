@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:quick_foodie/pages/bottomnav.dart';
 import 'package:quick_foodie/pages/forgot_password.dart';
 import 'package:quick_foodie/pages/signup.dart';
-
 import '../widget/widget_support.dart';
 
 class Login extends StatefulWidget {
@@ -30,10 +29,9 @@ class _LoginState extends State<Login> {
         isLoading = true;
       });
 
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: userEmailController.text.trim(),
+        password: userPasswordController.text.trim(),
       );
 
       if (context.mounted) {
@@ -153,7 +151,7 @@ class _LoginState extends State<Login> {
                                 controller: userEmailController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Please Enter Email";
+                                    return "Please enter a email.";
                                   }
                                   return null;
                                 },
@@ -174,7 +172,7 @@ class _LoginState extends State<Login> {
                                       controller: userPasswordController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return "Please Enter Password";
+                                          return "Please enter your password.";
                                         }
                                         return null;
                                       },
@@ -281,20 +279,33 @@ class _LoginState extends State<Login> {
                     height: 50.0,
                   ),
                   GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignUp()));
-                      },
-                      child: Text(
-                        "Don't have an Account? Signup",
-                        style: AppWidget.semiBoldTextFeildStyle(),
-                      ))
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUp()));
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Don't have an Account?  ",
+                        style: AppWidget
+                            .semiBoldTextFeildStyle(), // Style for the first part of the text
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "SignUp",
+                            style: AppWidget.semiBoldTextFeildStyle().copyWith(
+                              color: const Color(0Xffff5722),
+                              // Changing only the color of "Login" text
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

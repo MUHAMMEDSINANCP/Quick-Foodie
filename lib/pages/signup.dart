@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_foodie/pages/bottomnav.dart';
@@ -33,20 +32,21 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         isLoading = true;
       });
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // UserCredential userCredential =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       // Save user details including name to Firebase or your database
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .set({
-        'name': name,
-        'email': email,
-        // Add other user details if needed
-      });
+
+      // await FirebaseFirestore.instance
+      //     .collection('users')
+      //     .doc(userCredential.user!.uid)
+      //     .set({
+      //   'name': name,
+      //   'email': email,
+      //   // Add other user details if needed
+      // });
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
@@ -181,7 +181,7 @@ class _SignUpState extends State<SignUp> {
                                 controller: nameController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please Enter Name';
+                                    return 'Please enter your name.';
                                   }
                                   return null;
                                 },
@@ -199,7 +199,7 @@ class _SignUpState extends State<SignUp> {
                                 controller: emailController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please Enter a E-mail';
+                                    return 'Please enter your mail address.';
                                   }
                                   return null;
                                 },
@@ -218,7 +218,7 @@ class _SignUpState extends State<SignUp> {
                                 obscureText: !isPasswordVisible,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please Enter Password';
+                                    return 'Please create a password.';
                                   }
                                   return null;
                                 },
@@ -316,9 +316,21 @@ class _SignUpState extends State<SignUp> {
                           MaterialPageRoute(
                               builder: (context) => const Login()));
                     },
-                    child: Text(
-                      "Already have an account? Login",
-                      style: AppWidget.semiBoldTextFeildStyle(),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Already have an account?  ",
+                        style: AppWidget
+                            .semiBoldTextFeildStyle(), // Style for the first part of the text
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Login",
+                            style: AppWidget.semiBoldTextFeildStyle().copyWith(
+                              color: const Color(0Xffff5722),
+                              // Changing only the color of "Login" text
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
       setState(() {
         userName = userSnapshot['name'];
       });
-    }
+    } 
   }
 
   @override
