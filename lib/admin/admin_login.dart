@@ -134,7 +134,7 @@ class _AdminLoginState extends State<AdminLogin> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 38.0,
+                                  height: 30.0,
                                 ),
                                 SizedBox(
                                   width: 200,
