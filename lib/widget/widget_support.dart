@@ -4,6 +4,7 @@ class AppWidget {
   static TextStyle boldTextFeildStyle() {
     return const TextStyle(
         color: Colors.black,
+        overflow: TextOverflow.ellipsis,
         fontSize: 20.0,
         fontWeight: FontWeight.bold,
         fontFamily: 'Poppins');
@@ -12,7 +13,8 @@ class AppWidget {
   static TextStyle headlineTextFeildStyle() {
     return const TextStyle(
         color: Colors.black,
-        fontSize: 24.0,
+        fontSize: 23.0,
+        overflow: TextOverflow.ellipsis,
         fontWeight: FontWeight.bold,
         fontFamily: 'Poppins');
   }
@@ -21,6 +23,7 @@ class AppWidget {
     return const TextStyle(
         color: Colors.black54,
         fontSize: 15.0,
+        overflow: TextOverflow.ellipsis,
         fontWeight: FontWeight.w500,
         fontFamily: 'Poppins');
   }
@@ -29,6 +32,7 @@ class AppWidget {
     return const TextStyle(
         color: Colors.black,
         fontSize: 16.0,
+        overflow: TextOverflow.ellipsis,
         fontWeight: FontWeight.w500,
         fontFamily: 'Poppins');
   }

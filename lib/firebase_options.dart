@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '611694559944',
     projectId: 'quick-foodie-2abd5',
     authDomain: 'quick-foodie-2abd5.firebaseapp.com',
+    databaseURL: 'https://quick-foodie-2abd5-default-rtdb.firebaseio.com',
     storageBucket: 'quick-foodie-2abd5.appspot.com',
     measurementId: 'G-Y09E5YPSP6',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:611694559944:android:9ab656d5ceed50152cdbfd',
     messagingSenderId: '611694559944',
     projectId: 'quick-foodie-2abd5',
+    databaseURL: 'https://quick-foodie-2abd5-default-rtdb.firebaseio.com',
     storageBucket: 'quick-foodie-2abd5.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:611694559944:ios:1a606a280e99564a2cdbfd',
     messagingSenderId: '611694559944',
     projectId: 'quick-foodie-2abd5',
+    databaseURL: 'https://quick-foodie-2abd5-default-rtdb.firebaseio.com',
     storageBucket: 'quick-foodie-2abd5.appspot.com',
     iosBundleId: 'com.example.foodOnWheel',
   );
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:611694559944:ios:d807050bd81aa6c72cdbfd',
     messagingSenderId: '611694559944',
     projectId: 'quick-foodie-2abd5',
+    databaseURL: 'https://quick-foodie-2abd5-default-rtdb.firebaseio.com',
     storageBucket: 'quick-foodie-2abd5.appspot.com',
     iosBundleId: 'com.example.foodOnWheel.RunnerTests',
   );

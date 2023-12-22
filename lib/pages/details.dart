@@ -1,9 +1,22 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:quick_foodie/service/database.dart';
+import 'package:quick_foodie/service/shared_pref.dart';
 
 import '../widget/widget_support.dart';
 
 class Details extends StatefulWidget {
-  const Details({super.key});
+  final String image;
+  final String name;
+  final String detail;
+  final String price;
+
+  const Details(
+      {super.key,
+      required this.image,
+      required this.name,
+      required this.detail,
+      required this.price});
 
   @override
   State<Details> createState() => _DetailsState();
@@ -11,6 +24,26 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   int a = 1;
+  int total = 0;
+  String? id;
+  bool addingToCart = false;
+
+  getthesharedprefs() async {
+    id = await SharedpreferenceHelper().getUserId();
+    setState(() {});
+  }
+
+  ontheload() async {
+    await getthesharedprefs();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ontheload();
+    total = int.parse(widget.price);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +62,24 @@ class _DetailsState extends State<Details> {
                     Icons.arrow_back_ios_new_outlined,
                     weight: 10,
                     size: 30,
-                    color: Colors.black,
+                    color: Colors.red,
                   )),
-              Image.asset(
-                "images/salad2.png",
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 2.5,
-                fit: BoxFit.fill,
+              const SizedBox(
+                height: 15,
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: FancyShimmerImage(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 2,
+                  errorWidget: const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.red,
+                    size: 28,
+                  ),
+                  imageUrl: widget.image,
+                  boxFit: BoxFit.cover,
+                ),
               ),
               const SizedBox(
                 height: 15.0,
@@ -46,13 +90,17 @@ class _DetailsState extends State<Details> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Text(
+                        //   widget.name,
+                        //   style: AppWidget.semiBoldTextFeildStyle(),
+                        // ),
                         Text(
-                          "Mediterranean",
-                          style: AppWidget.semiBoldTextFeildStyle(),
-                        ),
-                        Text(
-                          "Chickpea Salad",
-                          style: AppWidget.boldTextFeildStyle(),
+                          widget.name,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins'),
                         ),
                       ],
                     ),
@@ -64,12 +112,14 @@ class _DetailsState extends State<Details> {
                     onTap: () {
                       if (a > 1) {
                         --a;
+                        total = total - int.parse(widget.price);
                       }
                       setState(() {});
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          border: Border.all(color: Colors.black38),
+                          color: Colors.red,
                           borderRadius: BorderRadius.circular(8)),
                       child: const Icon(
                         Icons.remove,
@@ -90,11 +140,13 @@ class _DetailsState extends State<Details> {
                   GestureDetector(
                     onTap: () {
                       ++a;
+                      total = total + int.parse(widget.price);
                       setState(() {});
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          border: Border.all(color: Colors.black38),
+                          color: Colors.red,
                           borderRadius: BorderRadius.circular(8)),
                       child: const Icon(
                         Icons.add,
@@ -108,7 +160,7 @@ class _DetailsState extends State<Details> {
                 height: 20.0,
               ),
               Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                widget.detail,
                 maxLines: 4,
                 style: AppWidget.lightTextFeildStyle(),
               ),
@@ -118,7 +170,7 @@ class _DetailsState extends State<Details> {
               Row(
                 children: [
                   Text(
-                    "Delivery Time",
+                    "Delivery Time  :",
                     style: AppWidget.semiBoldTextFeildStyle(),
                   ),
                   const SizedBox(
@@ -126,7 +178,8 @@ class _DetailsState extends State<Details> {
                   ),
                   const Icon(
                     Icons.alarm,
-                    color: Colors.black54,
+                    color: Colors.red,
+                    size: 20,
                   ),
                   const SizedBox(
                     width: 5.0,
@@ -138,10 +191,13 @@ class _DetailsState extends State<Details> {
                 ],
               ),
               const SizedBox(
-                height: 60,
+                height: 1,
+              ),
+              const Divider(
+                color: Colors.black45,
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 40.0),
+                padding: const EdgeInsets.only(bottom: 1.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -153,49 +209,134 @@ class _DetailsState extends State<Details> {
                           style: AppWidget.semiBoldTextFeildStyle(),
                         ),
                         Text(
-                          "\$28",
+                          "₹ $total",
                           style: AppWidget.headlineTextFeildStyle(),
                         )
                       ],
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          const Text(
-                            "Add to cart",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontFamily: 'Poppins'),
-                          ),
-                          const SizedBox(
-                            width: 30.0,
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: const Icon(
-                              Icons.shopping_cart_outlined,
-                              color: Colors.white,
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          addingToCart =
+                              true; // Set loading state to true when adding to cart
+                        });
+
+                        Map<String, dynamic> addFoodtoCart = {
+                          "Name": widget.name,
+                          "Quantity": a.toString(),
+                          "Total": total.toString(),
+                          "Image": widget.image,
+                        };
+                        await DatabaseMethods()
+                            .addFoodToCart(addFoodtoCart, id!);
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              dismissDirection: DismissDirection.up,
+                              behavior: SnackBarBehavior.floating,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 20),
+                              duration: const Duration(seconds: 1),
+                              backgroundColor: Colors
+                                  .white, // Set the Snackbar background color to transparent
+                              content: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.red,
+                                      width:
+                                          2), // Define the border color and width
+                                  borderRadius: BorderRadius.circular(
+                                      8), // Adjust the border radius as needed
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(6.0),
+                                  child: Center(
+                                    child: Text(
+                                      "Food Added to Cart.",
+                                      style: TextStyle(
+                                        color: Colors.redAccent,
+                                        fontSize: 15.0,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                        ],
+                          );
+                        }
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
+
+                        // After adding to cart operation is complete:
+                        setState(() {
+                          addingToCart =
+                              false; // Set loading state back to false
+                        });
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: addingToCart
+                            ? const SizedBox(
+                                height: 0.1,
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.red,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                  strokeWidth: 4,
+                                ),
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      "Add to cart",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16.0,
+                                          fontFamily: 'Poppins'),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  Transform.scale(
+                                    scale: 0.94,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.black54),
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: const Icon(
+                                        Icons.shopping_cart_outlined,
+                                        color: Colors.redAccent,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 15.0,
+                                  ),
+                                ],
+                              ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
+              const Divider(
+                color: Colors.black45,
+              ),
             ],
           ),
         ),

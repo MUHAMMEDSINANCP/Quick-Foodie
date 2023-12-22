@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_foodie/pages/bottomnav.dart';
+import 'package:quick_foodie/pages/bottom_nav.dart';
 import 'package:quick_foodie/pages/forgot_password.dart';
 import 'package:quick_foodie/pages/signup.dart';
+import '../admin/admin_login.dart';
 import '../widget/widget_support.dart';
 
 class Login extends StatefulWidget {
@@ -23,62 +24,6 @@ class _LoginState extends State<Login> {
   TextEditingController userEmailController = TextEditingController();
   TextEditingController userPasswordController = TextEditingController();
 
-  userLogin() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: userEmailController.text.trim(),
-        password: userPasswordController.text.trim(),
-      );
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar((const SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(
-              "Logged In Successfully",
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ))));
-      }
-
-      if (context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNav()),
-        );
-      }
-    } on FirebaseException catch (e) {
-      String errorMessage =
-          "Invalid Credentials! Check your email & password again.";
-
-      if (e.code == 'user-not-found') {
-        errorMessage = "No user found for that email.";
-      } else if (e.code == 'wrong-password') {
-        errorMessage = "Wrong password provided by the user.";
-      }
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              errorMessage,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.white,
-              ),
-            )));
-      }
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,13 +33,15 @@ class _LoginState extends State<Login> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 2.5,
             decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                  Color(0xFFff5c30),
-                  Color(0xFFe74b1a),
-                ])),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.red,
+                  Colors.red,
+                ],
+              ),
+            ),
           ),
           Container(
             margin:
@@ -113,6 +60,9 @@ class _LoginState extends State<Login> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(
+                    height: 25.0,
+                  ),
                   Center(
                       child: Image.asset(
                     "images/logo.png",
@@ -120,7 +70,7 @@ class _LoginState extends State<Login> {
                     fit: BoxFit.cover,
                   )),
                   const SizedBox(
-                    height: 50.0,
+                    height: 25.0,
                   ),
                   Material(
                     elevation: 5.0,
@@ -128,7 +78,7 @@ class _LoginState extends State<Login> {
                     child: Container(
                       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 1.9,
+                      height: MediaQuery.of(context).size.height / 2.27,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20)),
@@ -138,14 +88,31 @@ class _LoginState extends State<Login> {
                           child: Column(
                             children: [
                               const SizedBox(
-                                height: 30.0,
+                                height: 10.0,
+                              ),
+                              Divider(
+                                color: Colors.red.shade300,
+                                height: 2,
+                                indent: 105,
+                                thickness: 2,
+                                endIndent: 105,
                               ),
                               Text(
-                                "Log In",
+                                "Login",
                                 style: AppWidget.headlineTextFeildStyle(),
                               ),
                               const SizedBox(
-                                height: 30.0,
+                                height: 8.0,
+                              ),
+                              Divider(
+                                color: Colors.red.shade300,
+                                height: 2,
+                                indent: 105,
+                                thickness: 2,
+                                endIndent: 105,
+                              ),
+                              const SizedBox(
+                                height: 10,
                               ),
                               TextFormField(
                                 controller: userEmailController,
@@ -163,7 +130,7 @@ class _LoginState extends State<Login> {
                                         const Icon(Icons.email_outlined)),
                               ),
                               const SizedBox(
-                                height: 30.0,
+                                height: 26.0,
                               ),
                               Row(
                                 children: [
@@ -199,7 +166,7 @@ class _LoginState extends State<Login> {
                                             ? Icons.visibility
                                             : Icons.visibility_off,
                                         color: isPasswordVisible
-                                            ? const Color(0xFFff5c30)
+                                            ? Colors.red
                                             : Colors.grey,
                                       ),
                                     ),
@@ -207,7 +174,7 @@ class _LoginState extends State<Login> {
                                 ],
                               ),
                               const SizedBox(
-                                height: 20.0,
+                                height: 14.0,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -221,21 +188,27 @@ class _LoginState extends State<Login> {
                                 },
                                 child: Container(
                                   alignment: Alignment.topRight,
-                                  child: Text(
+                                  child: const Text(
                                     "Forgot Password?",
-                                    style: AppWidget.semiBoldTextFeildStyle(),
+                                    style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 13.0,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Poppins'),
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 40.0,
+                                height: 22.0,
                               ),
                               GestureDetector(
                                 onTap: () async {
                                   if (_formkey.currentState!.validate()) {
                                     setState(() {
-                                      email = userEmailController.text;
-                                      password = userPasswordController.text;
+                                      email = userEmailController.text.trim();
+                                      password =
+                                          userPasswordController.text.trim();
                                     });
                                   }
                                   userLogin();
@@ -248,21 +221,20 @@ class _LoginState extends State<Login> {
                                         vertical: 8.0),
                                     width: 200,
                                     decoration: BoxDecoration(
-                                        color: const Color(0Xffff5722),
+                                        color: Colors.red,
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     child: Center(
                                       child: isLoading
                                           ? const SizedBox(
-                                              height: 20,
-                                              width: 20,
+                                              height: 0.1,
+                                              width: 140,
                                               child: CircularProgressIndicator(
-                                                strokeWidth: 5,
-                                                backgroundColor:
-                                                    Colors.orangeAccent,
+                                                backgroundColor: Colors.red,
                                                 valueColor:
                                                     AlwaysStoppedAnimation<
                                                         Color>(Colors.white),
+                                                strokeWidth: 4,
                                               ),
                                             )
                                           : const Text(
@@ -288,7 +260,7 @@ class _LoginState extends State<Login> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const SignUp()));
@@ -301,10 +273,44 @@ class _LoginState extends State<Login> {
                         children: <TextSpan>[
                           TextSpan(
                             text: "SignUp",
-                            style: AppWidget.semiBoldTextFeildStyle().copyWith(
-                              color: const Color(0Xffff5722),
-                              // Changing only the color of "Login" text
-                            ),
+                            style: AppWidget.semiBoldTextFeildStyle()
+                                .copyWith(color: Colors.red
+                                    // Changing only the color of "Login" text
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  const Text(
+                    "Or",
+                    style: TextStyle(letterSpacing: 1),
+                  ),
+                  const SizedBox(
+                    height: 8.0,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AdminLogin()));
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Login as ",
+                        style: AppWidget
+                            .semiBoldTextFeildStyle(), // Style for the first part of the text
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Admin",
+                            style: AppWidget.semiBoldTextFeildStyle()
+                                .copyWith(color: Colors.black54
+                                    // Changing only the color of "Login" text
+                                    ),
                           ),
                         ],
                       ),
@@ -316,6 +322,128 @@ class _LoginState extends State<Login> {
           ),
         ],
       ),
+    );
+  }
+
+  void userLogin() async {
+    if (userEmailController.text.isEmpty ||
+        userPasswordController.text.isEmpty) {
+      showSnackBar(
+        "Please enter both email and password",
+        Colors.redAccent,
+      );
+      return; // Stop execution if fields are empty
+    }
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      await signInUser();
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            dismissDirection: DismissDirection.up,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            duration: const Duration(seconds: 1),
+            backgroundColor: Colors
+                .white, // Set the Snackbar background color to transparent
+            content: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.red,
+                    width: 2), // Define the border color and width
+                borderRadius: BorderRadius.circular(
+                    8), // Adjust the border radius as needed
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(6.0),
+                child: Center(
+                  child: Text(
+                    "Welcome back to Quick Foodie App!",
+                    style: TextStyle(
+                      color: Colors.redAccent,
+                      fontSize: 15.0,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        navigateToHome();
+      }
+    } on FirebaseException catch (e) {
+      handleFirebaseException(e);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> signInUser() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: userEmailController.text.trim(),
+      password: userPasswordController.text.trim(),
+    );
+  }
+
+  void showSnackBar(
+    String message,
+    Color color, {
+    double fontSize = 15,
+    DismissDirection dismissDirection = DismissDirection.up,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+        dismissDirection: dismissDirection,
+        content: Text(
+          message,
+          style: TextStyle(
+            fontSize: fontSize,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void handleFirebaseException(FirebaseException e) {
+    String errorMessage =
+        "Invalid Credentials! Check your email & password again.";
+
+    if (e.code == 'user-not-found') {
+      errorMessage = "No user found for that email.";
+    } else if (e.code == 'wrong-password') {
+      errorMessage = "Wrong password provided by the user.";
+    }
+
+    if (context.mounted) {
+      showSnackBar(
+        errorMessage,
+        Colors.redAccent,
+        fontSize: 15,
+        dismissDirection: DismissDirection.down,
+      );
+    }
+  }
+
+  void navigateToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const BottomNav(
+                initialIndex: 0,
+              )),
     );
   }
 }

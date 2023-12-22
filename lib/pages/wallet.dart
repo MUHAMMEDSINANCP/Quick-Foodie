@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:quick_foodie/common_widgets/default_wallets_amounts.dart';
-import 'package:quick_foodie/service/service.dart';
+import 'package:quick_foodie/service/database.dart';
 import 'package:quick_foodie/service/shared_pref.dart';
 import 'package:quick_foodie/widget/stripe_api.dart';
 import 'package:quick_foodie/widget/widget_support.dart';
@@ -19,6 +19,7 @@ class Wallet extends StatefulWidget {
 }
 
 class _WalletState extends State<Wallet> {
+  bool isLoading = false;
   String? wallet;
   String? id;
   int? add;
@@ -48,9 +49,12 @@ class _WalletState extends State<Wallet> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: wallet == null
-          ? const CircularProgressIndicator(
-              strokeWidth: 3,
-              color: Colors.deepOrange,
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.red,
+                strokeWidth: 5,
+                backgroundColor: Colors.white38,
+              ),
             )
           : Container(
               margin: const EdgeInsets.only(top: 60.0),
@@ -63,11 +67,39 @@ class _WalletState extends State<Wallet> {
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: Center(
                         child: Text(
-                          "wallet",
-                          style: AppWidget.headlineTextFeildStyle(),
+                          "Quick Foodie Wallet",
+                          style: TextStyle(
+                            foreground: Paint()
+                              ..shader = const LinearGradient(
+                                colors: [
+                                  Colors.redAccent,
+                                  Colors.red,
+                                  Colors.black,
+                                  Colors.red,
+                                  Colors.black,
+                                  Colors.red,
+                                  Colors.black,
+                                  Colors.red,
+                                  Colors.black,
+                                  Colors.red,
+                                  Colors.red,
+                                  Colors.black,
+                                ], // Replace with your gradient colors
+                              ).createShader(const Rect.fromLTWH(
+                                  50.0,
+                                  50.0,
+                                  270.0,
+                                  150.0)), // Adjust the Rect size as needed
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                            fontSize: 19,
+                          ),
                         ),
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -78,14 +110,17 @@ class _WalletState extends State<Wallet> {
                     decoration: const BoxDecoration(color: Color(0xFFF2F2F2)),
                     child: Row(
                       children: [
+                        const SizedBox(
+                          width: 15,
+                        ),
                         Image.asset(
                           "images/wallet.png",
-                          height: 55,
-                          width: 55,
+                          height: 53,
+                          width: 53,
                           fit: BoxFit.cover,
                         ),
                         const SizedBox(
-                          width: 40.0,
+                          width: 25.0,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +133,7 @@ class _WalletState extends State<Wallet> {
                               height: 5.0,
                             ),
                             Text(
-                              "\$${wallet!}",
+                              "₹ ${wallet!}",
                               style: AppWidget.boldTextFeildStyle(),
                             )
                           ],
@@ -126,24 +161,24 @@ class _WalletState extends State<Wallet> {
                           onTap: () {
                             makePayment('100');
                           },
-                          child: const DefaultWalletAmount(amount: "\$" "100")),
+                          child: const DefaultWalletAmount(amount: "₹ " "100")),
                       GestureDetector(
                           onTap: () {
                             makePayment('500');
                           },
-                          child: const DefaultWalletAmount(amount: "\$" "500")),
+                          child: const DefaultWalletAmount(amount: "₹ " "500")),
                       GestureDetector(
                           onTap: () {
                             makePayment('1000');
                           },
                           child:
-                              const DefaultWalletAmount(amount: "\$" "1000")),
+                              const DefaultWalletAmount(amount: "₹ " "1000")),
                       GestureDetector(
                         onTap: () {
                           makePayment('2000');
                         },
                         child: const DefaultWalletAmount(
-                          amount: "\$" "2000",
+                          amount: "₹ " "2000",
                         ),
                       ),
                     ],
@@ -160,18 +195,30 @@ class _WalletState extends State<Wallet> {
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 30.0),
                       decoration: BoxDecoration(
-                          color: const Color(0xFF008080),
+                          color: Colors.red,
                           borderRadius: BorderRadius.circular(8)),
-                      child: const Center(
-                        child: Text(
-                          "Add Money",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      child: Center(
+                        child: isLoading
+                            ? const Center(
+                                child: SizedBox(
+                                height: 0.1,
+                                width: 150,
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.red,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                  strokeWidth: 4,
+                                ),
+                              ))
+                            : const Text(
+                                "Add Money",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
                     ),
                   )
@@ -183,6 +230,35 @@ class _WalletState extends State<Wallet> {
 
   Future<void> makePayment(String amount) async {
     try {
+      if (amount.isEmpty) {
+        // Show error message if amount is empty
+        showDialog(
+          context: context,
+          builder: (_) => Transform.scale(
+            scale: 0.8,
+            child: const AlertDialog(
+              content: Padding(
+                padding: EdgeInsets.only(left: 10, top: 10),
+                child: Text(
+                  'Please enter the amount!',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.0,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        return;
+      }
+
+      setState(() {
+        isLoading = true;
+      });
+
       paymentIntent = await createPaymentIntent(amount, 'INR');
       await Stripe.instance
           .initPaymentSheet(
@@ -191,6 +267,9 @@ class _WalletState extends State<Wallet> {
                   style: ThemeMode.dark,
                   merchantDisplayName: 'Sinan'))
           .then((value) {});
+      setState(() {
+        isLoading = false;
+      });
       displayPaymentSheet(amount);
     } catch (e, s) {
       print('exception: $e\n$s');
@@ -212,13 +291,37 @@ class _WalletState extends State<Wallet> {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      SizedBox(
+                        width: 11,
+                      ),
                       Row(
                         children: [
-                          Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
+                          SizedBox(
+                            width: 5,
                           ),
-                          Text("Payment Successful")
+                          Padding(
+                            padding: EdgeInsets.only(top: 8),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                              size: 26,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Payment Successful.",
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 16.0,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         ],
                       )
                     ],
@@ -228,6 +331,7 @@ class _WalletState extends State<Wallet> {
         await getthesharedpref();
 
         paymentIntent = null;
+        amountcontroller.clear();
       }).onError((error, stackTrace) {
         print('Error is ---> $error $stackTrace');
       });
@@ -236,7 +340,15 @@ class _WalletState extends State<Wallet> {
       showDialog(
           context: context,
           builder: (_) => const AlertDialog(
-                content: Text("Cancelled"),
+                content: Text(
+                  "Cancelled",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.0,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ));
     } catch (e) {
       print('$e');
@@ -290,25 +402,27 @@ class _WalletState extends State<Wallet> {
                       ),
                     ),
                     const SizedBox(
-                      width: 60.0,
+                      width: 30.0,
                     ),
                     const Center(
                       child: Text(
-                        "Add Money",
+                        "Add Money to Wallet",
                         style: TextStyle(
-                          color: Color(0xFF008080),
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    )
+                    ),
                   ],
+                ),
+                const Divider(
+                  color: Colors.black,
+                  height: 1,
+                  indent: 54,
+                  endIndent: 43,
                 ),
                 const SizedBox(
                   height: 20.0,
-                ),
-                const Text("Amount"),
-                const SizedBox(
-                  height: 10.0,
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -333,19 +447,23 @@ class _WalletState extends State<Wallet> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
-                      makePayment(amountcontroller.text);
+                      makePayment(
+                        amountcontroller.text.trim(),
+                      );
                     },
                     child: Container(
                       width: 80,
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF008080),
+                        color: Colors.red,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Center(
                         child: Text(
                           "Pay",
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
+                            fontSize: 17,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),

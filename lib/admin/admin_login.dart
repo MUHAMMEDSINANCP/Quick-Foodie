@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_foodie/admin/home_admin.dart';
+import 'package:quick_foodie/pages/login.dart';
+import 'package:quick_foodie/widget/widget_support.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
@@ -81,13 +83,13 @@ class _AdminLoginState extends State<AdminLogin> {
                                     controller: usernamecontroller,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please enter username.';
+                                        return 'Please enter the ID.';
                                       }
                                       return null;
                                     },
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.all(18),
-                                      hintText: 'Enter your username',
+                                      hintText: 'Enter your ID',
                                       border: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Colors.grey,
@@ -109,6 +111,7 @@ class _AdminLoginState extends State<AdminLogin> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 19),
                                   child: TextFormField(
+                                    obscureText: !isPasswordVisible,
                                     controller: userpasswordcontroller,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -128,6 +131,27 @@ class _AdminLoginState extends State<AdminLogin> {
                                       focusedBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: Colors.grey,
+                                        ),
+                                      ),
+                                      prefixIcon:
+                                          const Icon(Icons.password_outlined),
+                                      suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isPasswordVisible =
+                                                !isPasswordVisible;
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            isPasswordVisible
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
+                                            color: isPasswordVisible
+                                                ? Colors.black
+                                                : Colors.grey,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -206,6 +230,56 @@ class _AdminLoginState extends State<AdminLogin> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 45.0,
+                      ),
+                      MaterialButton(
+                        color: Colors.transparent,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(color: Colors.white38),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                                Icons
+                                    .exit_to_app, // Use your preferred exit icon here
+                                color:
+                                    Colors.red // Match the button's text color
+                                ),
+                            RichText(
+                              text: TextSpan(
+                                text: " Leave ",
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Poppins',
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "Admin Panel",
+                                    style: AppWidget.semiBoldTextFeildStyle()
+                                        .copyWith(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight
+                                          .w600, // Ensure consistent boldness
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Login()));
+                        },
+                      ),
                     ],
                   ),
                 )),
@@ -283,26 +357,72 @@ class _AdminLoginState extends State<AdminLogin> {
           builder: (BuildContext context) {
             return AlertDialog(
               backgroundColor: Colors.white, // Green color for success
-              title: const Text(
-                'Success!',
-                style: TextStyle(
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
+              title: const Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Welcome!',
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      height: 2,
+                    ),
+                    Divider(
+                      color: Colors.black,
+                      height: 2,
+                    )
+                  ],
                 ),
               ),
-              content: const Text(
-                'You have successfully logged in as Admin.',
+              content: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: RichText(
+                  text: const TextSpan(
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.black, // Default text color
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(text: 'You have successfully logged into the '),
+                      TextSpan(
+                        text: 'Quick Foodie',
+                        style: TextStyle(
+                          color: Colors.black54, // Red color for Quick Foodie
+                          fontWeight: FontWeight.bold, // Optional: Make it bold
+                        ),
+                      ),
+                      TextSpan(text: ' Admin Panel.'),
+                    ],
+                  ),
+                ),
               ),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text(
-                    'OK',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                  child: Container(
+                    height: 30,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        border: Border.all(),
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: const Center(
+                      child: Text(
+                        'OK',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Poppins',
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),
