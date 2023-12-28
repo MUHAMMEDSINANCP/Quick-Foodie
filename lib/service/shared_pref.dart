@@ -67,4 +67,10 @@ class SharedpreferenceHelper {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(userProfileKey);
   }
+
+  // Method to clear the stored profile picture
+  Future<void> clearUserProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(userProfileKey);
+  }
 }

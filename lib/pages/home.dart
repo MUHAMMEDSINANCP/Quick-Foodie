@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
                     message: "Go to Food Cart",
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const BottomNav(
@@ -236,6 +236,9 @@ class _HomeState extends State<Home> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const SizedBox(
+              width: 20,
+            ),
             GestureDetector(
               onTap: () async {
                 icecream = true;

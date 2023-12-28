@@ -2,8 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:quick_foodie/service/auth.dart';
+import 'package:quick_foodie/service/database.dart';
 import 'package:quick_foodie/service/shared_pref.dart';
 import 'package:random_string/random_string.dart';
 
@@ -15,11 +14,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String? profile, name, address, email;
+  String? profile, name, address, email, currentUserUid;
   final ImagePicker _picker = ImagePicker();
   File? selectedImage;
 
   onthisload() async {
+    currentUserUid = await SharedpreferenceHelper().getUserId();
+
     await getthesharedpref();
     if (mounted) {
       setState(() {});
@@ -30,6 +31,128 @@ class _ProfileState extends State<Profile> {
   void initState() {
     onthisload();
     super.initState();
+  }
+
+  void onEditAddressPressed() {
+    String newAddress = ''; // This variable will hold the edited address
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text(
+              'Change Address',
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20.0,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          content: TextField(
+            onChanged: (value) {
+              newAddress = value;
+            },
+            decoration: const InputDecoration(
+              hintText: 'Enter your new address',
+              hintStyle: TextStyle(
+                color: Colors.grey,
+                fontSize: 15.0,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the AlertDialog
+              },
+            ),
+            TextButton(
+              child: Container(
+                height: 32,
+                width: 80,
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(12)),
+                child: const Center(
+                  child: Text(
+                    'Update',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.0,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                if (newAddress.isEmpty) {
+                  // Show a text indicating that a new address needs to be entered
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      dismissDirection: DismissDirection.up,
+                      behavior: SnackBarBehavior.floating,
+                      duration: const Duration(seconds: 1),
+                      backgroundColor: Colors
+                          .white, // Set the Snackbar background color to transparent
+                      content: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.red,
+                              width: 2), // Define the border color and width
+                          borderRadius: BorderRadius.circular(
+                              8), // Adjust the border radius as needed
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: Center(
+                            child: Text(
+                              "Please enter the new address.",
+                              style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: 15.0,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  setState(() {
+                    address = newAddress; // Update the address in the UI
+                  });
+
+                  updateUserAddress(currentUserUid!, newAddress);
+
+                  Navigator.of(context).pop(); // Close the AlertDialog
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> updateUserAddress(String userId, String newAddress) async {
+    await DatabaseMethods().updateUserAddress(userId, newAddress);
+    // You might want to add error handling here in case of any issues with database update
   }
 
   @override
@@ -217,10 +340,20 @@ class _ProfileState extends State<Profile> {
                                         color: Colors.black,
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w600),
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.edit_location_alt_outlined,
+                                size: 30,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                onEditAddressPressed();
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -278,7 +411,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      AuthMethods().deleteAccount(context);
+                      DatabaseMethods().deleteAccount(context);
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -325,7 +458,7 @@ class _ProfileState extends State<Profile> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      AuthMethods().confirmLogout(context);
+                      DatabaseMethods().confirmLogout(context);
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -535,18 +668,6 @@ class _ProfileState extends State<Profile> {
 
   Future getImage() async {
     // Check if permission is granted
-    var status = await Permission.photos.status;
-
-    if (!status.isGranted) {
-      // If permission is not granted, request it
-      status = await Permission.photos.request();
-
-      if (!status.isGranted) {
-        // Permission denied by the user
-        // Handle this scenario (show a message, navigate to settings, etc.)
-        return;
-      }
-    }
 
     // Permission is granted, proceed with accessing the image
     var image = await _picker.pickImage(source: ImageSource.gallery);

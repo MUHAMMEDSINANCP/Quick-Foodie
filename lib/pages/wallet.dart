@@ -114,7 +114,7 @@ class _WalletState extends State<Wallet> {
                           width: 15,
                         ),
                         Image.asset(
-                          "images/wallet.png",
+                          "images/ewallet.png",
                           height: 53,
                           width: 53,
                           fit: BoxFit.cover,

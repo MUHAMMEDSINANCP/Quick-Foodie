@@ -74,7 +74,7 @@ class _OrderState extends State<Order> {
             scrollDirection: Axis.vertical,
             itemBuilder: (context, index) {
               DocumentSnapshot ds = snapshot.data.docs[index];
-              total = total + int.parse(ds["Total"]);
+              total = int.parse(ds["Total"]);
 
               return Dismissible(
                 key: Key(ds.id),
@@ -191,6 +191,7 @@ class _OrderState extends State<Order> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           "Food Cart",
@@ -449,21 +450,37 @@ class _OrderState extends State<Order> {
                                 });
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    backgroundColor: Colors.green,
-                                    dismissDirection:
-                                        DismissDirection.horizontal,
+                                    dismissDirection: DismissDirection.up,
                                     behavior: SnackBarBehavior.floating,
                                     margin: const EdgeInsets.symmetric(
-                                        vertical: 40, horizontal: 20),
-                                    content: Text(
-                                      '''Your order is placed and will be delivered to your home address :- $address''',
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Poppins'),
+                                        horizontal: 50, vertical: 20),
+                                    duration: const Duration(seconds: 3),
+                                    backgroundColor: Colors
+                                        .white, // Set the Snackbar background color to transparent
+                                    content: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.green,
+                                            width:
+                                                2), // Define the border color and width
+                                        borderRadius: BorderRadius.circular(
+                                            8), // Adjust the border radius as needed
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: Center(
+                                          child: Text(
+                                            '''Your order is placed and will be delivered to your home address :- $address''',
+                                            style: const TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 13.0,
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    duration: const Duration(seconds: 4),
                                   ),
                                 );
                               }

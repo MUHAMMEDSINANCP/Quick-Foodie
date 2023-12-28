@@ -97,12 +97,15 @@ class _LoginState extends State<Login> {
                                 thickness: 2,
                                 endIndent: 105,
                               ),
+                              const SizedBox(
+                                height: 4.0,
+                              ),
                               Text(
                                 "Login",
                                 style: AppWidget.headlineTextFeildStyle(),
                               ),
                               const SizedBox(
-                                height: 8.0,
+                                height: 4.0,
                               ),
                               Divider(
                                 color: Colors.red.shade300,

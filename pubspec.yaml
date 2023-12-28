@@ -33,7 +33,6 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   firebase_auth: ^4.13.0
   firebase_core: ^2.22.0
-  permission_handler:
   firebase_storage: ^11.5.6
   flutter:
     sdk: flutter

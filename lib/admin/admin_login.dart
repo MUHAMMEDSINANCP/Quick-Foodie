@@ -274,10 +274,93 @@ class _AdminLoginState extends State<AdminLogin> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Login()));
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Center(
+                                  child: Text(
+                                    'Leave Admin Panel',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                ),
+                                content: RichText(
+                                  text: const TextSpan(
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text:
+                                            'Are you sure you want to Leave the ',
+                                      ),
+                                      TextSpan(
+                                        text: 'Quick Foodie',
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: ' Admin Panel?',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text(
+                                      'Cancel',
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Login()),
+                                      );
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey,
+                                          border: Border.all(),
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      height: 30,
+                                      width: 80,
+                                      child: const Center(
+                                        child: Text(
+                                          'Leave',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Poppins',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                       ),
                     ],
@@ -408,7 +491,7 @@ class _AdminLoginState extends State<AdminLogin> {
                   },
                   child: Container(
                     height: 30,
-                    width: 40,
+                    width: 47,
                     decoration: BoxDecoration(
                         border: Border.all(),
                         color: Colors.grey,
@@ -417,9 +500,9 @@ class _AdminLoginState extends State<AdminLogin> {
                       child: Text(
                         'OK',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontFamily: 'Poppins',
-                          fontSize: 19,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

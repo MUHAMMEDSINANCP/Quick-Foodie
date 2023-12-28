@@ -100,12 +100,15 @@ class _SignUpState extends State<SignUp> {
                               thickness: 2,
                               endIndent: 90,
                             ),
+                            const SizedBox(
+                              height: 4.0,
+                            ),
                             Text(
                               "Sign up",
                               style: AppWidget.headlineTextFeildStyle(),
                             ),
                             const SizedBox(
-                              height: 8.0,
+                              height: 4.0,
                             ),
                             Divider(
                               color: Colors.red.shade300,
