@@ -28,8 +28,7 @@ Delivery Details : Provides estimated delivery times to the user's specified hom
 Quick Foodie streamlines the food ordering process, offering secure payments, a seamless wallet experience, and convenient address/profile management.
 
 ### Feedback :
-We value your feedback! Reach out to us at cpmuhammedsinan@gmail.com to share your thoughts and suggestions, contributing to the improvement of Quick Foodie.
-
+Your feedback means a lot! Get in touch with me at cpmuhammedsinan@gmail.com to share your thoughts and suggestions, contributing to the betterment of Quick Foodie.
 
 ### Technologies Used :
 Firebase Authentication, Flutter State Management, Stripe Payment Integration, Shared Preferences for Local Data Storage, Firestore Database Security.
