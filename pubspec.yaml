@@ -31,17 +31,19 @@ dependencies:
   cloud_firestore: ^4.13.0
   cupertino_icons: ^1.0.2
   curved_navigation_bar: ^1.0.3
+  fancy_shimmer_image: null
   firebase_auth: ^4.13.0
   firebase_core: ^2.22.0
   firebase_storage: ^11.5.6
   flutter:
     sdk: flutter
   flutter_stripe: ^9.5.0+1
+  form_field_validator: ^1.1.0
+  gap: ^3.0.1
   http: ^1.1.0
   image_picker: ^1.0.5
   random_string: ^2.3.1
   shared_preferences: ^2.2.2
-  fancy_shimmer_image:
 
 dev_dependencies:
   build_runner: ^2.4.6

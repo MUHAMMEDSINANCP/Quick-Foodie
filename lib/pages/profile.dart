@@ -347,7 +347,7 @@ class _ProfileState extends State<Profile> {
                             IconButton(
                               icon: const Icon(
                                 Icons.edit_location_alt_outlined,
-                                size: 30,
+                                size: 27,
                                 color: Colors.grey,
                               ),
                               onPressed: () {

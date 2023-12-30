@@ -19,11 +19,12 @@ class _OrderState extends State<Order> {
 
   bool placingOrder = false;
   String? id, wallet, address;
-  int total = 0, amount2 = 0;
+  int total = 0;
+  int totalPrice = 0;
 
   void startTimer() {
     Timer(const Duration(seconds: 1), () {
-      amount2 = total;
+      total;
       setState(() {});
     });
   }
@@ -67,6 +68,13 @@ class _OrderState extends State<Order> {
             width: double.infinity,
           );
         } else {
+          // Calculate totalPrice when data changes
+          totalPrice = 0;
+          for (int i = 0; i < snapshot.data.docs.length; i++) {
+            DocumentSnapshot ds = snapshot.data.docs[i];
+            int itemPrice = int.parse(ds["Total"]);
+            totalPrice += itemPrice;
+          }
           return ListView.builder(
             padding: EdgeInsets.zero,
             itemCount: snapshot.data.docs.length,
@@ -75,6 +83,7 @@ class _OrderState extends State<Order> {
             itemBuilder: (context, index) {
               DocumentSnapshot ds = snapshot.data.docs[index];
               total = int.parse(ds["Total"]);
+              int.parse(ds["Total"]);
 
               return Dismissible(
                 key: Key(ds.id),
@@ -82,12 +91,24 @@ class _OrderState extends State<Order> {
                 background: Container(
                   decoration: BoxDecoration(
                     color: Colors.red,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   alignment: Alignment.centerRight,
                   child: const Padding(
-                    padding: EdgeInsets.only(right: 40),
-                    child: Icon(Icons.delete, size: 30, color: Colors.white),
+                    padding: EdgeInsets.only(right: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.delete, size: 30, color: Colors.white),
+                        Text("DELETE FOOD",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Poppins',
+                            ))
+                      ],
+                    ),
                   ),
                 ),
                 onDismissed: (direction) async {
@@ -218,7 +239,7 @@ class _OrderState extends State<Order> {
                   style: AppWidget.boldTextFeildStyle(),
                 ),
                 Text(
-                  "₹ $total",
+                  "₹ $totalPrice",
                   style: AppWidget.semiBoldTextFeildStyle(),
                 )
               ],
@@ -314,14 +335,13 @@ class _OrderState extends State<Order> {
                 );
               } else {
                 setState(() {
-                  showProgress = true; // Show the progress indicator
+                  showProgress = true;
                 });
 
                 // Simulate a 2-second delay using Timer
                 Timer(const Duration(seconds: 2), () {
                   setState(() {
-                    showProgress =
-                        false; // Hide the progress indicator after 2 seconds
+                    showProgress = false;
                   });
 
                   // Proceed with checkout logic after 2 seconds
