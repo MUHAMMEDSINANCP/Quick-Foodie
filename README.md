@@ -64,3 +64,4 @@ Firebase Authentication, Flutter State Management, Stripe Payment Integration, S
 ![IMG_20231231_014622](https://github.com/MUHAMMEDSINANCP/Quick-Foodie/assets/68960205/dfbfeae7-b8e9-415d-9b03-c97dbb9af1a1) 
 
  
+ 
