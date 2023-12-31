@@ -454,7 +454,8 @@ class _OrderState extends State<Order> {
                             setState(() {
                               placingOrder = true; // Update placingOrder state
                             });
-                            int remainingAmount = int.parse(wallet!) - total;
+                            int remainingAmount =
+                                int.parse(wallet!) - totalPrice;
                             if (remainingAmount >= 0) {
                               // Process the order and deduct the total price from the wallet
                               await DatabaseMethods().updateUserWallet(
