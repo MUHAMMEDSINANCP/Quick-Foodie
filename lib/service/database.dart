@@ -364,6 +364,8 @@ class DatabaseMethods {
                               // Clear profile picture when logging out
                               await SharedpreferenceHelper().clearUserProfile();
 
+                              await FirebaseAuth.instance.signOut();
+
                               // Delete the user from Firebase Auth
                               await currentUser.delete();
                             }
