@@ -5,7 +5,7 @@ Quick Foodie is a Firebase-authenticated application meticulously crafted using 
 ### Key Features :
 
 Seamless Ordering : Effortlessly place food orders through a user-friendly interface.
-
+ 
 Stripe Payment Integration : Secure and convenient payment gateway for hassle-free transactions.
 
 Wallet Feature : Allows users to deposit funds for quick and easy in-app purchases.
