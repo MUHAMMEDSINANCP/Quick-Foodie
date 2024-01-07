@@ -382,7 +382,7 @@ class _OrderState extends State<Order> {
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 60,
           )
         ],
       ),
